@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_storage/shared_storage.dart';
 import 'package:shared_storage/src/channels.dart';
 import 'package:shared_storage/src/storage_access_framework/document_bitmap.dart';
@@ -13,8 +14,8 @@ import 'package:shared_storage/src/storage_access_framework/uri_permission.dart'
 /// [Refer to details](https://developer.android.com/reference/android/content/Intent#ACTION_OPEN_DOCUMENT_TREE)
 ///
 /// support the initial directory of the directory picker
-Future<Uri?> openDocumentTree(
-    {bool grantWritePermission = true, Uri? initialUri}) async {
+Future<Uri> openDocumentTree(
+    {bool grantWritePermission = true, Uri initialUri}) async {
   const kOpenDocumentTree = 'openDocumentTree';
 
   const kGrantWritePermission = 'grantWritePermission';
@@ -26,7 +27,7 @@ Future<Uri?> openDocumentTree(
   };
 
   final selectedDirectoryUri =
-      await kDocumentFileChannel.invokeMethod<String?>(kOpenDocumentTree, args);
+      await kDocumentFileChannel.invokeMethod<String>(kOpenDocumentTree, args);
 
   if (selectedDirectoryUri == null) return null;
 
@@ -37,7 +38,7 @@ Future<Uri?> openDocumentTree(
 ///
 /// To persist an [URI] call `openDocumentTree`
 /// and to remove an persisted [URI] call `releasePersistableUriPermission`
-Future<List<UriPermission>?> persistedUriPermissions() async {
+Future<List<UriPermission>> persistedUriPermissions() async {
   const kPersistedUriPermissions = 'persistedUriPermissions';
 
   final persistedUriPermissions =
@@ -81,7 +82,7 @@ Future<bool> isPersistedUri(Uri uri) async {
 /// Equivalent to `DocumentFile.canRead`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#canRead())
-Future<bool?> canRead(Uri uri) async {
+Future<bool> canRead(Uri uri) async {
   const kCanRead = 'canRead';
 
   const kUri = 'uri';
@@ -94,7 +95,7 @@ Future<bool?> canRead(Uri uri) async {
 /// Equivalent to `DocumentFile.canWrite`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#canWrite())
-Future<bool?> canWrite(Uri uri) async {
+Future<bool> canWrite(Uri uri) async {
   const kCanWrite = 'canWrite';
 
   const kUri = 'uri';
@@ -107,11 +108,11 @@ Future<bool?> canWrite(Uri uri) async {
 /// Equivalent to `DocumentsContract.getDocumentThumbnail`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/provider/DocumentsContract#getDocumentThumbnail(android.content.ContentResolver,%20android.net.Uri,%20android.graphics.Point,%20android.os.CancellationSignal))
-Future<DocumentBitmap?> getDocumentThumbnail({
-  required Uri rootUri,
-  required String documentId,
-  required double width,
-  required double height,
+Future<DocumentBitmap> getDocumentThumbnail({
+  @required Uri rootUri,
+  @required String documentId,
+  @required double width,
+  @required double height,
 }) async {
   const kGetDocumentThumbnail = 'getDocumentThumbnail';
 
@@ -157,7 +158,7 @@ Future<DocumentBitmap?> getDocumentThumbnail({
 ///
 /// [Refer to details](https://stackoverflow.com/questions/41096332/issues-traversing-through-directory-hierarchy-with-android-storage-access-framew)
 Stream<PartialDocumentFile> listFiles(Uri uri,
-    {required List<DocumentFileColumn> columns}) {
+    {@required List<DocumentFileColumn> columns}) {
   const kListFiles = 'listFiles';
 
   const kUri = 'uri';
@@ -179,7 +180,7 @@ Stream<PartialDocumentFile> listFiles(Uri uri,
 }
 
 /// Verify if a given [uri] exists
-Future<bool?> exists(Uri uri) async {
+Future<bool> exists(Uri uri) async {
   const kExists = 'exists';
 
   const kUri = 'uri';
@@ -192,7 +193,7 @@ Future<bool?> exists(Uri uri) async {
 /// Equivalent to `DocumentsContract.buildDocumentUriUsingTree`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/provider/DocumentsContract#buildDocumentUriUsingTree%28android.net.Uri,%20java.lang.String%29)
-Future<Uri?> buildDocumentUriUsingTree(Uri treeUri, String documentId) async {
+Future<Uri> buildDocumentUriUsingTree(Uri treeUri, String documentId) async {
   const kBuildDocumentUriUsingTree = 'buildDocumentUriUsingTree';
 
   const kTreeUri = 'treeUri';
@@ -214,7 +215,7 @@ Future<Uri?> buildDocumentUriUsingTree(Uri treeUri, String documentId) async {
 /// Equivalent to `DocumentsContract.buildDocumentUri`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/provider/DocumentsContract#buildDocumentUri%28java.lang.String,%20java.lang.String%29)
-Future<Uri?> buildDocumentUri(String authority, String documentId) async {
+Future<Uri> buildDocumentUri(String authority, String documentId) async {
   const kBuildDocumentUri = 'buildDocumentUri';
 
   const kAuthority = 'authority';
@@ -236,7 +237,7 @@ Future<Uri?> buildDocumentUri(String authority, String documentId) async {
 /// Equivalent to `DocumentsContract.buildDocumentUri`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/provider/DocumentsContract#buildDocumentUri%28java.lang.String,%20java.lang.String%29)
-Future<Uri?> buildTreeDocumentUri(String authority, String documentId) async {
+Future<Uri> buildTreeDocumentUri(String authority, String documentId) async {
   const kBuildTreeDocumentUri = 'buildTreeDocumentUri';
 
   const kAuthority = 'authority';
@@ -260,7 +261,7 @@ Future<Uri?> buildTreeDocumentUri(String authority, String documentId) async {
 /// Returns `true` if deleted successfully
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#delete%28%29)
-Future<bool?> delete(Uri uri) async {
+Future<bool> delete(Uri uri) async {
   const kDelete = 'delete';
 
   const kUri = 'uri';
@@ -275,7 +276,7 @@ Future<bool?> delete(Uri uri) async {
 /// Equivalent to `DocumentFile.createDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#createDirectory%28java.lang.String%29)
-Future<DocumentFile?> createDirectory(Uri parentUri, String displayName) async {
+Future<DocumentFile> createDirectory(Uri parentUri, String displayName) async {
   const kCreateDirectory = 'createDirectory';
 
   const kDisplayNameArg = 'displayName';
@@ -300,10 +301,10 @@ Future<DocumentFile?> createDirectory(Uri parentUri, String displayName) async {
 /// - `content` is the content of the document as a list of bytes `Uint8List`
 ///
 /// Returns the created file as a `DocumentFile`
-Future<DocumentFile?> createFileAsBytes(Uri parentUri,
-    {required String mimeType,
-    required String displayName,
-    required Uint8List content}) async {
+Future<DocumentFile> createFileAsBytes(Uri parentUri,
+    {@required String mimeType,
+    @required String displayName,
+    @required Uint8List content}) async {
   const kCreateFile = 'createFile';
 
   const kMimeTypeArg = 'mimeType';
@@ -330,10 +331,10 @@ Future<DocumentFile?> createFileAsBytes(Uri parentUri,
 
 /// Convenient method to create a file
 /// using `content` as String instead Uint8List
-Future<DocumentFile?> createFileAsString(Uri parentUri,
-    {required String mimeType,
-    required String displayName,
-    required String content}) {
+Future<DocumentFile> createFileAsString(Uri parentUri,
+    {@required String mimeType,
+    @required String displayName,
+    @required String content}) {
   return createFileAsBytes(
     parentUri,
     displayName: displayName,
@@ -347,7 +348,7 @@ Future<DocumentFile?> createFileAsString(Uri parentUri,
 /// Returns the size of a given document `uri` in bytes
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#length%28%29)
-Future<int?> getDocumentLength(Uri uri) async {
+Future<int> getDocumentLength(Uri uri) async {
   const kLength = 'length';
 
   const kUri = 'uri';
@@ -362,7 +363,7 @@ Future<int?> getDocumentLength(Uri uri) async {
 /// Equivalent to `DocumentFile.lastModified`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#lastModified%28%29)
-Future<DateTime?> lastModified(Uri uri) async {
+Future<DateTime> lastModified(Uri uri) async {
   const kLastModified = 'lastModified';
 
   const kUri = 'uri';
@@ -380,7 +381,7 @@ Future<DateTime?> lastModified(Uri uri) async {
 /// Equivalent to `DocumentFile.findFile`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#findFile%28java.lang.String%29)
-Future<DocumentFile?> findFile(Uri directoryUri, String displayName) async {
+Future<DocumentFile> findFile(Uri directoryUri, String displayName) async {
   const kFindFile = 'findFile';
 
   const kDisplayNameArg = 'displayName';
@@ -409,7 +410,7 @@ Future<DocumentFile?> findFile(Uri directoryUri, String displayName) async {
 /// Equivalent to `DocumentFile.renameTo`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#renameTo%28java.lang.String%29)
-Future<DocumentFile?> renameTo(Uri uri, String displayName) async {
+Future<DocumentFile> renameTo(Uri uri, String displayName) async {
   const kRenameTo = 'renameTo';
 
   const kDisplayNameArg = 'displayName';
@@ -433,7 +434,7 @@ Future<DocumentFile?> renameTo(Uri uri, String displayName) async {
 /// Equivalent to `DocumentFile.fromTreeUri`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#fromTreeUri%28android.content.Context,%20android.net.Uri%29)
-Future<DocumentFile?> fromTreeUri(Uri uri) async {
+Future<DocumentFile> fromTreeUri(Uri uri) async {
   const kFromTreeUri = 'fromTreeUri';
 
   const kUri = 'uri';
@@ -451,7 +452,7 @@ Future<DocumentFile?> fromTreeUri(Uri uri) async {
 /// Equivalent to `DocumentFile.getParentFile`
 ///
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile#getParentFile%28%29)
-Future<DocumentFile?> parentFile(Uri uri) async {
+Future<DocumentFile> parentFile(Uri uri) async {
   const kParentFile = 'parentFile';
 
   const kUri = 'uri';
@@ -469,7 +470,7 @@ Future<DocumentFile?> parentFile(Uri uri) async {
 /// Copy a document `uri` to the `destination`
 ///
 /// This API uses the `createFile` and `readDocumentContent` API's behind the scenes
-Future<DocumentFile?> copy(Uri uri, Uri destination) async {
+Future<DocumentFile> copy(Uri uri, Uri destination) async {
   const kCopy = 'copy';
 
   const kUri = 'uri';

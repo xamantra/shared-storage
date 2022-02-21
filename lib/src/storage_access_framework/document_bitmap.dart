@@ -1,21 +1,23 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
+
 class DocumentBitmap {
-  final String? base64;
-  final Uri? uri;
-  final int? width;
-  final int? height;
-  final int? byteCount;
-  final int? density;
+  final String base64;
+  final Uri uri;
+  final int width;
+  final int height;
+  final int byteCount;
+  final int density;
 
   const DocumentBitmap(
-      {required this.base64,
-      required this.uri,
-      required this.width,
-      required this.height,
-      required this.byteCount,
-      required this.density});
+      {@required this.base64,
+      @required this.uri,
+      @required this.width,
+      @required this.height,
+      @required this.byteCount,
+      @required this.density});
 
   static DocumentBitmap fromMap(Map<String, dynamic> map) {
     return DocumentBitmap(
@@ -45,27 +47,28 @@ class DocumentBitmap {
     };
   }
 
-  Uint8List? get bytes {
+  Uint8List get bytes {
     if (base64 == null) return null;
 
     const codec = Base64Codec();
 
-    return codec.decode(base64!);
+    return codec.decode(base64);
   }
 
   @override
   bool operator ==(Object other) {
     if (other is! DocumentBitmap) return false;
 
-    return other.byteCount == byteCount &&
-        other.width == width &&
-        other.height == height &&
-        other.uri == uri &&
-        other.density == density &&
-        other.base64 == base64;
+    final o = other as DocumentBitmap;
+    return o.byteCount == byteCount &&
+        o.width == width &&
+        o.height == height &&
+        o.uri == uri &&
+        o.density == density &&
+        o.base64 == base64;
   }
 
-  @override
-  int get hashCode =>
-      Object.hash(width, height, uri, density, byteCount, base64);
+  // @override
+  // int get hashCode =>
+  //     Object.hash(width, height, uri, density, byteCount, base64);
 }

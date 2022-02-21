@@ -8,7 +8,7 @@ import 'environment_directory.dart';
 /// Equivalent to `Environment.getRootDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getRootDirectory%28%29)
-Future<Directory?> getRootDirectory() async {
+Future<Directory> getRootDirectory() async {
   const kGetRootDirectory = 'getRootDirectory';
 
   return invokeVoidEnvironmentMethod(kGetRootDirectory);
@@ -21,7 +21,7 @@ Future<Directory?> getRootDirectory() async {
 /// _Deprecated in API level 29_
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getExternalStoragePublicDirectory%28java.lang.String%29)
-Future<Directory?> getExternalStoragePublicDirectory(
+Future<Directory> getExternalStoragePublicDirectory(
     EnvironmentDirectory directory) async {
   const kGetExternalStoragePublicDirectory =
       'getExternalStoragePublicDirectory';
@@ -29,7 +29,7 @@ Future<Directory?> getExternalStoragePublicDirectory(
 
   final args = <String, String>{kDirectoryArg: '$directory'};
 
-  final publicDir = await kEnvironmentChannel.invokeMethod<String?>(
+  final publicDir = await kEnvironmentChannel.invokeMethod<String>(
       kGetExternalStoragePublicDirectory, args);
 
   if (publicDir == null) return null;
@@ -40,7 +40,7 @@ Future<Directory?> getExternalStoragePublicDirectory(
 /// Equivalent to `Environment.getExternalStorageDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getExternalStorageDirectory%28%29)
-Future<Directory?> getExternalStorageDirectory() async {
+Future<Directory> getExternalStorageDirectory() async {
   const kGetExternalStorageDirectory = 'getExternalStorageDirectory';
 
   return invokeVoidEnvironmentMethod(kGetExternalStorageDirectory);
@@ -49,7 +49,7 @@ Future<Directory?> getExternalStorageDirectory() async {
 /// Equivalent to `Environment.getDataDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getDataDirectory%28%29)
-Future<Directory?> getDataDirectory() async {
+Future<Directory> getDataDirectory() async {
   const kGetDataDirectory = 'getDataDirectory';
 
   return invokeVoidEnvironmentMethod(kGetDataDirectory);
@@ -58,7 +58,7 @@ Future<Directory?> getDataDirectory() async {
 /// Equivalent to `Environment.getDataDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getDownloadCacheDirectory%28%29)
-Future<Directory?> getDownloadCacheDirectory() async {
+Future<Directory> getDownloadCacheDirectory() async {
   const kGetDownloadCacheDirectory = 'getDownloadCacheDirectory';
 
   return invokeVoidEnvironmentMethod(kGetDownloadCacheDirectory);
@@ -67,7 +67,7 @@ Future<Directory?> getDownloadCacheDirectory() async {
 /// Equivalent to `Environment.getStorageDirectory`
 ///
 /// [Refer to details](https://developer.android.com/reference/android/os/Environment#getStorageDirectory%28%29)
-Future<Directory?> getStorageDirectory() {
+Future<Directory> getStorageDirectory() {
   const kGetStorageDirectory = 'getStorageDirectory';
 
   return invokeVoidEnvironmentMethod(kGetStorageDirectory);

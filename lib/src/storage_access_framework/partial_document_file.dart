@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 /// Represent the same entity as `DocumentFile` but will be lazily loaded
@@ -6,10 +7,10 @@ import 'package:shared_storage/shared_storage.dart';
 ///
 /// _Note: Can't be instantiated_
 class PartialDocumentFile {
-  final Map<DocumentFileColumn, dynamic>? data;
-  final QueryMetadata? metadata;
+  final Map<DocumentFileColumn, dynamic> data;
+  final QueryMetadata metadata;
 
-  const PartialDocumentFile._({required this.data, required this.metadata});
+  const PartialDocumentFile._({@required this.data, @required this.metadata});
 
   static PartialDocumentFile fromMap(Map<String, dynamic> map) {
     return PartialDocumentFile._(
@@ -38,11 +39,12 @@ class PartialDocumentFile {
   bool operator ==(Object other) {
     if (other is! PartialDocumentFile) return false;
 
-    return other.data == data && other.metadata == metadata;
+    final o = other as PartialDocumentFile;
+    return o.data == data && o.metadata == metadata;
   }
 
-  @override
-  int get hashCode => Object.hash(data, metadata);
+  // @override
+  // int get hashCode => Object.hash(data, metadata);
 }
 
 /// Represents the metadata that the given `PartialDocumentFile` was got by
@@ -50,18 +52,18 @@ class PartialDocumentFile {
 ///
 /// _Note: Can't be instantiated_
 class QueryMetadata {
-  final Uri? parentUri;
-  final Uri? rootUri;
-  final bool? isDirectory;
-  final Uri? uri;
+  final Uri parentUri;
+  final Uri rootUri;
+  final bool isDirectory;
+  final Uri uri;
 
   const QueryMetadata._(
-      {required this.parentUri,
-      required this.rootUri,
-      required this.isDirectory,
-      required this.uri});
+      {@required this.parentUri,
+      @required this.rootUri,
+      @required this.isDirectory,
+      @required this.uri});
 
-  static Uri? _parseUri(String? uri) {
+  static Uri _parseUri(String uri) {
     if (uri == null) return null;
 
     return Uri.parse(uri);
@@ -89,12 +91,13 @@ class QueryMetadata {
   bool operator ==(Object other) {
     if (other is! QueryMetadata) return false;
 
-    return other.parentUri == parentUri &&
-        other.rootUri == rootUri &&
-        other.isDirectory == isDirectory &&
-        other.uri == uri;
+    final o = other as QueryMetadata;
+    return o.parentUri == parentUri &&
+        o.rootUri == rootUri &&
+        o.isDirectory == isDirectory &&
+        o.uri == uri;
   }
 
-  @override
-  int get hashCode => Object.hash(parentUri, rootUri, isDirectory, uri);
+  // @override
+  // int get hashCode => Object.hash(parentUri, rootUri, isDirectory, uri);
 }

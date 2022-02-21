@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Description of a single Uri permission grant.
 /// This grants may have been created via `Intent#FLAG_GRANT_READ_URI_PERMISSION`,
 /// etc when sending an `Intent`, or explicitly through `Context#grantUriPermission(String, android.net.Uri, int)`.
@@ -25,10 +27,10 @@ class UriPermission {
   /// Even we allow create instances of this class avoid it and use
   /// `persistedUriPermissions` API instead
   const UriPermission(
-      {required this.isReadPermission,
-      required this.isWritePermission,
-      required this.persistedTime,
-      required this.uri});
+      {@required this.isReadPermission,
+      @required this.isWritePermission,
+      @required this.persistedTime,
+      @required this.uri});
 
   @override
   bool operator ==(Object other) =>
@@ -38,9 +40,9 @@ class UriPermission {
       persistedTime == other.persistedTime &&
       uri == other.uri;
 
-  @override
-  int get hashCode =>
-      Object.hash(isReadPermission, isWritePermission, persistedTime, uri);
+  // @override
+  // int get hashCode =>
+  //     Object.hash(isReadPermission, isWritePermission, persistedTime, uri);
 
   static UriPermission fromMap(Map<String, dynamic> map) {
     return UriPermission(

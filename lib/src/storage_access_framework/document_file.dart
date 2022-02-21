@@ -1,12 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_storage/shared_storage.dart';
 import 'package:shared_storage/src/storage_access_framework/document_file_column.dart';
 import 'package:shared_storage/src/storage_access_framework/saf.dart' as saf;
 
 extension UriDocumentFileUtils on Uri {
   /// Same as `DocumentFile.fromTreeUri(this)`
-  Future<DocumentFile?> toDocumentFile() => DocumentFile.fromTreeUri(this);
+  Future<DocumentFile> toDocumentFile() => DocumentFile.fromTreeUri(this);
 }
 
 /// Equivalent to Android `DocumentFile` class
@@ -14,66 +15,66 @@ extension UriDocumentFileUtils on Uri {
 /// [Refer to details](https://developer.android.com/reference/androidx/documentfile/provider/DocumentFile)
 class DocumentFile {
   final String name;
-  final String? type;
+  final String type;
   final Uri uri;
   final bool isDirectory;
   final bool isFile;
   final bool isVirtual;
 
   const DocumentFile(
-      {required this.name,
-      required this.type,
-      required this.uri,
-      required this.isDirectory,
-      required this.isFile,
-      required this.isVirtual});
+      {@required this.name,
+      @required this.type,
+      @required this.uri,
+      @required this.isDirectory,
+      @required this.isFile,
+      @required this.isVirtual});
 
   /// Same as `uri.toDocumentFile` where `uri` is of type `Uri`
-  static Future<DocumentFile?> fromTreeUri(Uri uri) => saf.fromTreeUri(uri);
+  static Future<DocumentFile> fromTreeUri(Uri uri) => saf.fromTreeUri(uri);
 
-  Future<bool?> canRead() async => saf.canWrite(uri);
+  Future<bool> canRead() async => saf.canWrite(uri);
 
-  Future<bool?> canWrite() async => saf.canWrite(uri);
+  Future<bool> canWrite() async => saf.canWrite(uri);
 
   Stream<PartialDocumentFile> listFiles(List<DocumentFileColumn> columns) =>
       saf.listFiles(uri, columns: columns);
 
-  Future<bool?> exists() => saf.exists(uri);
+  Future<bool> exists() => saf.exists(uri);
 
-  Future<bool?> delete() => saf.delete(uri);
+  Future<bool> delete() => saf.delete(uri);
 
-  Future<DocumentFile?> copy(Uri destination) => saf.copy(uri, destination);
+  Future<DocumentFile> copy(Uri destination) => saf.copy(uri, destination);
 
   Stream<String> getContent(Uri destination) => saf.getDocumentContent(uri);
 
-  Future<DocumentFile?> createDirectory(String displayName) =>
+  Future<DocumentFile> createDirectory(String displayName) =>
       saf.createDirectory(uri, displayName);
 
-  Future<DocumentFile?> createFileAsBytes(
-          {required String mimeType,
-          required String displayName,
-          required Uint8List content}) =>
+  Future<DocumentFile> createFileAsBytes(
+          {@required String mimeType,
+          @required String displayName,
+          @required Uint8List content}) =>
       saf.createFileAsBytes(uri,
           mimeType: mimeType, displayName: displayName, content: content);
 
-  Future<DocumentFile?> createFileAsString(
-          {required String mimeType,
-          required String displayName,
-          required String content}) =>
+  Future<DocumentFile> createFileAsString(
+          {@required String mimeType,
+          @required String displayName,
+          @required String content}) =>
       saf.createFileAsString(uri,
           mimeType: mimeType, displayName: displayName, content: content);
 
-  Future<int?> get length => saf.getDocumentLength(uri);
+  Future<int> get length => saf.getDocumentLength(uri);
 
-  Future<DateTime?> get lastModified => saf.lastModified(uri);
+  Future<DateTime> get lastModified => saf.lastModified(uri);
 
-  Future<DocumentFile?> findFile(String displayName) =>
+  Future<DocumentFile> findFile(String displayName) =>
       saf.findFile(uri, displayName);
 
-  Future<DocumentFile?> renameTo(String displayName) =>
+  Future<DocumentFile> renameTo(String displayName) =>
       saf.renameTo(uri, displayName);
 
-  Future<DocumentFile?> parentFile() => saf.parentFile(uri);
+  Future<DocumentFile> parentFile() => saf.parentFile(uri);
 
   static DocumentFile fromMap(Map<String, dynamic> map) {
     return DocumentFile(
@@ -101,15 +102,16 @@ class DocumentFile {
   bool operator ==(Object other) {
     if (other is! DocumentFile) return false;
 
-    return isDirectory == other.isDirectory &&
-        isFile == other.isFile &&
-        isVirtual == other.isVirtual &&
-        name == other.name &&
-        type == other.type &&
-        uri == other.uri;
+    final o = other as DocumentFile;
+    return isDirectory == o.isDirectory &&
+        isFile == o.isFile &&
+        isVirtual == o.isVirtual &&
+        name == o.name &&
+        type == o.type &&
+        uri == o.uri;
   }
 
-  @override
-  int get hashCode =>
-      Object.hash(isDirectory, isFile, isVirtual, name, type, uri);
+  // @override
+  // int get hashCode =>
+  //     Object.hash(isDirectory, isFile, isVirtual, name, type, uri);
 }
